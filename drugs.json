@@ -1,0 +1,51 @@
+{
+  "drug1": {
+    "brand_name": "Winday Spas",
+    "composition": [
+      "Mefenamic Acid IP – 250 mg",
+      "Dicyclomine Hydrochloride IP – 10 mg"
+    ],
+    "dose_strength": "250 mg + 10 mg (per tablet)",
+    "batch_no": "WRD230029",
+    "mfg_date": "Nov 2023",
+    "exp_date": "Oct 2026",
+    "dosage_form": "Uncoated Tablet",
+    "storage": "Store protected from light & moisture at a temperature not exceeding 30°C",
+    "special_conditions": [
+      "Schedule H Prescription Drug (To be sold by retail on prescription of a Registered Medical Practitioner only).",
+      "Keep out of reach of children."
+    ],
+    "directions": "As directed by the physician (not self-administered without medical advice)"
+  },
+  "drug2": {
+    "brand_name": "Amrox",
+    "composition": [
+      "Ambroxol Hydrochloride IP – 15 mg",
+      "Guaiphenesin IP – 50 mg",
+      "Terbutaline Sulphate IP – 1.5 mg",
+      "Menthol – 1 mg"
+    ],
+    "colour": "Brilliant Blue FCF",
+    "dose_strength": "5 ml contains the above stated drug concentrations",
+    "batch_no": "AHLH25017",
+    "mfg_date": "March 2025",
+    "exp_date": "February 2027",
+    "dosage_form": "Syrup / Oral Liquid",
+    "storage": [
+      "Store at temperatures not exceeding 30°C.",
+      "Protect from sunlight.",
+      "Keep out of reach of children."
+    ],
+    "special_conditions": [
+      "Prescription medicine (Rx). Must be taken only as directed by the Physician."
+    ],
+    "label_warning": "Shake well before use.",
+    "directions": [
+      "Shake the bottle well before every use.",
+      "Measure the prescribed amount using a spoon/cup/dropper.",
+      "Take orally, as directed by the doctor (usually after food to avoid stomach upset).",
+      "Do not exceed prescribed dose."
+    ],
+    "indications": "This combination syrup is usually prescribed for cough with mucus (productive cough), asthma-related cough, and bronchitis, as it works as an expectorant, bronchodilator, and mucolytic."
+  }
+}

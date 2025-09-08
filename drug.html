@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drug Information</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+      margin: 0;
+      padding: 20px;
+    }
+    .card {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      animation: fadeIn 1s ease-in-out;
+      box-sizing: border-box;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+      line-height: 1.3;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 1rem;
+      color: #7f8c8d;
+      margin-bottom: 20px;
+    }
+    .info {
+      margin: 12px 0;
+      padding: 12px;
+      background: #f9f9f9;
+      border-left: 6px solid #3498db;
+      border-radius: 8px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .info b {
+      color: #2c3e50;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .highlight {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #555;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Responsive styles */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .card {
+        padding: 15px;
+        border-radius: 10px;
+      }
+      h1 {
+        font-size: 1.5rem;
+      }
+      .subtitle {
+        font-size: 0.95rem;
+      }
+      .info {
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1 id="brand_name">Loading...</h1>
+    <p class="subtitle" id="dosage_form"></p>
+
+    <div class="info"><b>Composition:</b> <span id="composition"></span></div>
+    <div class="info"><b>Dose Strength:</b> <span id="dose_strength"></span></div>
+    <div class="info"><b>Batch No.:</b> <span id="batch_no"></span></div>
+    <div class="info"><b>Manufacturing Date:</b> <span id="mfg_date"></span></div>
+    <div class="info"><b>Expiry Date:</b> <span id="exp_date" class="highlight"></span></div>
+    <div class="info"><b>Storage Conditions:</b> <span id="storage"></span></div>
+    <div class="info"><b>Special Conditions:</b> <span id="special_conditions"></span></div>
+    <div class="info"><b>Directions for Use:</b> <span id="directions"></span></div>
+    <div class="info"><b>Label Warning:</b> <span id="label_warning"></span></div>
+    <div class="info"><b>Indications:</b> <span id="indications"></span></div>
+
+    <footer>⚕️ For medical guidance, consult a licensed physician.</footer>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const drugId = urlParams.get("id");
+
+    fetch("drugs.json")
+      .then(res => res.json())
+      .then(data => {
+        const drug = data[drugId];
+        if (drug) {
+          document.getElementById("brand_name").innerText = drug.brand_name;
+          document.getElementById("composition").innerText = Array.isArray(drug.composition) ? drug.composition.join(", ") : drug.composition;
+          document.getElementById("dose_strength").innerText = drug.dose_strength;
+          document.getElementById("batch_no").innerText = drug.batch_no;
+          document.getElementById("mfg_date").innerText = drug.mfg_date;
+          document.getElementById("exp_date").innerText = drug.exp_date;
+          document.getElementById("dosage_form").innerText = drug.dosage_form;
+          document.getElementById("storage").innerText = Array.isArray(drug.storage) ? drug.storage.join(" | ") : drug.storage;
+          document.getElementById("special_conditions").innerText = Array.isArray(drug.special_conditions) ? drug.special_conditions.join(" | ") : drug.special_conditions;
+          document.getElementById("directions").innerText = Array.isArray(drug.directions) ? drug.directions.join(" | ") : drug.directions;
+          document.getElementById("label_warning").innerText = drug.label_warning || "N/A";
+          document.getElementById("indications").innerText = drug.indications || "N/A";
+        } else {
+          document.body.innerHTML = "<h2 style='text-align:center;color:red;'>Drug not found!</h2>";
+        }
+      });
+  </script>
+</body>
+</html>
