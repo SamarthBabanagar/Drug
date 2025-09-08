@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Drug Information</title>
+  <title>Loading...</title> <!-- Default until drug loads -->
   <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -113,6 +113,10 @@
       .then(data => {
         const drug = data[drugId];
         if (drug) {
+          // Update page <title> dynamically with drug name
+          document.title = drug.brand_name;
+
+          // Fill in the content
           document.getElementById("brand_name").innerText = drug.brand_name;
           document.getElementById("composition").innerText = Array.isArray(drug.composition) ? drug.composition.join(", ") : drug.composition;
           document.getElementById("dose_strength").innerText = drug.dose_strength;
@@ -122,11 +126,12 @@
           document.getElementById("dosage_form").innerText = drug.dosage_form;
           document.getElementById("storage").innerText = Array.isArray(drug.storage) ? drug.storage.join(" | ") : drug.storage;
           document.getElementById("special_conditions").innerText = Array.isArray(drug.special_conditions) ? drug.special_conditions.join(" | ") : drug.special_conditions;
-          document.getElementById("directions").innerText = Array.isArray(drug.directions) ? drug.directions.join(" | ") : drug.directions;
+          document.getElementById("directions").innerHTML = Array.isArray(drug.directions) ? drug.directions.join("<br>") : drug.directions;
           document.getElementById("label_warning").innerText = drug.label_warning || "N/A";
           document.getElementById("indications").innerText = drug.indications || "N/A";
         } else {
           document.body.innerHTML = "<h2 style='text-align:center;color:red;'>Drug not found!</h2>";
+          document.title = "Drug not found";
         }
       });
   </script>
