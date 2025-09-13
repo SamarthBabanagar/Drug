@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Loading...</title> <!-- Default until drug loads -->
+  <title>Loading...</title>
   <style>
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -53,6 +53,30 @@
       color: #e74c3c;
       font-weight: bold;
     }
+    .media {
+      margin: 15px 0;
+      padding: 12px;
+      background: #f0f8ff;
+      border-left: 6px solid #8e44ad;
+      border-radius: 8px;
+    }
+    .media b {
+      display: block;
+      margin-bottom: 10px;
+      color: #8e44ad;
+    }
+    .media img {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .media video {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: block;
+    }
     footer {
       text-align: center;
       margin-top: 20px;
@@ -62,26 +86,6 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
-    }
-    /* Responsive styles */
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      .card {
-        padding: 15px;
-        border-radius: 10px;
-      }
-      h1 {
-        font-size: 1.5rem;
-      }
-      .subtitle {
-        font-size: 0.95rem;
-      }
-      .info {
-        font-size: 0.9rem;
-        padding: 10px;
-      }
     }
   </style>
 </head>
@@ -101,6 +105,12 @@
     <div class="info"><b>Label Warning:</b> <span id="label_warning"></span></div>
     <div class="info"><b>Indications:</b> <span id="indications"></span></div>
 
+    <!-- Media Section (hidden if empty) -->
+    <div id="media_section" class="media" style="display:none;">
+      <b>Media:</b>
+      <div id="media_content"></div>
+    </div>
+
     <footer>⚕️ For medical guidance, consult a licensed physician.</footer>
   </div>
 
@@ -108,51 +118,68 @@
     const urlParams = new URLSearchParams(window.location.search);
     const drugId = urlParams.get("id");
 
-    fetch("drugs.json")
-      .then(res => res.json())
-      .then(data => {
-        const drug = data[drugId];
-        if (drug) {
-          // Update page <title> dynamically with drug name
-          document.title = drug.brand_name;
+    Promise.all([
+      fetch("drugs.json").then(res => res.json()),
+      fetch("media.json").then(res => res.json())
+    ])
+    .then(([drugsData, mediaData]) => {
+      const drug = drugsData[drugId];
+      if (drug) {
+        document.title = drug.brand_name;
+        document.getElementById("brand_name").innerText = drug.brand_name;
 
-          // Fill in the content
-          document.getElementById("brand_name").innerText = drug.brand_name;
-          
-          // Composition (array or object)
-          if (Array.isArray(drug.drug_composition)) {
-            document.getElementById("composition").innerText = drug.drug_composition.join(", ");
-          } else if (typeof drug.drug_composition === "object") {
-            document.getElementById("composition").innerText =
-              Object.entries(drug.drug_composition)
-                .map(([k, v]) => `${k}: ${v}`)
-                .join(", ");
-          } else {
-            document.getElementById("composition").innerText = drug.drug_composition || "N/A";
-          }
-
-          document.getElementById("dose_strength").innerText = drug.dose_strength || "N/A";
-          document.getElementById("batch_no").innerText = drug.batch_no || "N/A";
-          document.getElementById("mfg_date").innerText = drug.manufacturing_date || "N/A";
-          document.getElementById("exp_date").innerText = drug.expiry_date || "N/A";
-          document.getElementById("dosage_form").innerText = drug.dosage_form || "N/A";
-
-          document.getElementById("storage").innerText = 
-            Array.isArray(drug.storage_conditions) ? drug.storage_conditions.join(" | ") : (drug.storage_conditions || "N/A");
-
-          document.getElementById("special_conditions").innerText = 
-            Array.isArray(drug.special_conditions) ? drug.special_conditions.join(" | ") : (drug.special_conditions || "N/A");
-
-          document.getElementById("directions").innerHTML = 
-            Array.isArray(drug.directions_for_use) ? drug.directions_for_use.join("<br>") : (drug.directions_for_use || "N/A");
-
-          document.getElementById("label_warning").innerText = drug.label_warning || "N/A";
-          document.getElementById("indications").innerText = drug.indications || "N/A";
+        if (Array.isArray(drug.drug_composition)) {
+          document.getElementById("composition").innerText = drug.drug_composition.join(", ");
+        } else if (typeof drug.drug_composition === "object") {
+          document.getElementById("composition").innerText =
+            Object.entries(drug.drug_composition).map(([k, v]) => `${k}: ${v}`).join(", ");
         } else {
-          document.body.innerHTML = "<h2 style='text-align:center;color:red;'>Drug not found!</h2>";
-          document.title = "Drug not found";
+          document.getElementById("composition").innerText = drug.drug_composition || "N/A";
         }
-      });
+
+        document.getElementById("dose_strength").innerText = drug.dose_strength || "N/A";
+        document.getElementById("batch_no").innerText = drug.batch_no || "N/A";
+        document.getElementById("mfg_date").innerText = drug.manufacturing_date || "N/A";
+        document.getElementById("exp_date").innerText = drug.expiry_date || "N/A";
+        document.getElementById("dosage_form").innerText = drug.dosage_form || "N/A";
+
+        document.getElementById("storage").innerText =
+          Array.isArray(drug.storage_conditions) ? drug.storage_conditions.join(" | ") : (drug.storage_conditions || "N/A");
+
+        document.getElementById("special_conditions").innerText =
+          Array.isArray(drug.special_conditions) ? drug.special_conditions.join(" | ") : (drug.special_conditions || "N/A");
+
+        document.getElementById("directions").innerHTML =
+          Array.isArray(drug.directions_for_use) ? drug.directions_for_use.join("<br>") : (drug.directions_for_use || "N/A");
+
+        document.getElementById("label_warning").innerText = drug.label_warning || "N/A";
+        document.getElementById("indications").innerText = drug.indications || "N/A";
+
+        // Handle Media Section
+        const media = mediaData[drugId];
+        if (media && (media.images.length > 0 || media.videos.length > 0)) {
+          const mediaContent = document.getElementById("media_content");
+
+          media.images.forEach(img => {
+            const imageElement = document.createElement("img");
+            imageElement.src = img;
+            mediaContent.appendChild(imageElement);
+          });
+
+          media.videos.forEach(vid => {
+            const videoElement = document.createElement("video");
+            videoElement.src = vid;
+            videoElement.controls = true;
+            mediaContent.appendChild(videoElement);
+          });
+
+          document.getElementById("media_section").style.display = "block";
+        }
+      } else {
+        document.body.innerHTML = "<h2 style='text-align:center;color:red;'>Drug not found!</h2>";
+        document.title = "Drug not found";
+      }
+    });
   </script>
 </body>
 </html>
