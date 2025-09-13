@@ -118,15 +118,34 @@
 
           // Fill in the content
           document.getElementById("brand_name").innerText = drug.brand_name;
-          document.getElementById("composition").innerText = Array.isArray(drug.composition) ? drug.composition.join(", ") : drug.composition;
-          document.getElementById("dose_strength").innerText = drug.dose_strength;
-          document.getElementById("batch_no").innerText = drug.batch_no;
-          document.getElementById("mfg_date").innerText = drug.mfg_date;
-          document.getElementById("exp_date").innerText = drug.exp_date;
-          document.getElementById("dosage_form").innerText = drug.dosage_form;
-          document.getElementById("storage").innerText = Array.isArray(drug.storage) ? drug.storage.join(" | ") : drug.storage;
-          document.getElementById("special_conditions").innerText = Array.isArray(drug.special_conditions) ? drug.special_conditions.join(" | ") : drug.special_conditions;
-          document.getElementById("directions").innerHTML = Array.isArray(drug.directions) ? drug.directions.join("<br>") : drug.directions;
+          
+          // Composition (array or object)
+          if (Array.isArray(drug.drug_composition)) {
+            document.getElementById("composition").innerText = drug.drug_composition.join(", ");
+          } else if (typeof drug.drug_composition === "object") {
+            document.getElementById("composition").innerText =
+              Object.entries(drug.drug_composition)
+                .map(([k, v]) => `${k}: ${v}`)
+                .join(", ");
+          } else {
+            document.getElementById("composition").innerText = drug.drug_composition || "N/A";
+          }
+
+          document.getElementById("dose_strength").innerText = drug.dose_strength || "N/A";
+          document.getElementById("batch_no").innerText = drug.batch_no || "N/A";
+          document.getElementById("mfg_date").innerText = drug.manufacturing_date || "N/A";
+          document.getElementById("exp_date").innerText = drug.expiry_date || "N/A";
+          document.getElementById("dosage_form").innerText = drug.dosage_form || "N/A";
+
+          document.getElementById("storage").innerText = 
+            Array.isArray(drug.storage_conditions) ? drug.storage_conditions.join(" | ") : (drug.storage_conditions || "N/A");
+
+          document.getElementById("special_conditions").innerText = 
+            Array.isArray(drug.special_conditions) ? drug.special_conditions.join(" | ") : (drug.special_conditions || "N/A");
+
+          document.getElementById("directions").innerHTML = 
+            Array.isArray(drug.directions_for_use) ? drug.directions_for_use.join("<br>") : (drug.directions_for_use || "N/A");
+
           document.getElementById("label_warning").innerText = drug.label_warning || "N/A";
           document.getElementById("indications").innerText = drug.indications || "N/A";
         } else {
