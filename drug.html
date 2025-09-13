@@ -5,84 +5,139 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Loading...</title>
   <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #e0f7fa, #fce4ec);
+      --card-bg: #ffffff;
+      --info-bg: #f9f9f9;
+      --info-border: #3498db;
+      --text-color: #2c3e50;
+      --subtitle-color: #7f8c8d;
+      --highlight: #e74c3c;
+      --media-bg: #f0f8ff;
+      --media-border: #8e44ad;
+      --footer-color: #555;
+    }
+
+    body.dark-mode {
+      --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --card-bg: #1e1e1e;
+      --info-bg: #2c2c2c;
+      --info-border: #2980b9;
+      --text-color: #f1f1f1;
+      --subtitle-color: #aaa;
+      --highlight: #ff7675;
+      --media-bg: #2a2a3d;
+      --media-border: #9b59b6;
+      --footer-color: #bbb;
+    }
+
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+      background: var(--bg-gradient);
       margin: 0;
       padding: 20px;
+      color: var(--text-color);
     }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background: linear-gradient(135deg, #2980b9, #1f6391);
+    }
+
     .card {
       width: 100%;
       max-width: 700px;
       margin: auto;
-      background: #fff;
+      background: var(--card-bg);
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.15);
       animation: fadeIn 1s ease-in-out;
       box-sizing: border-box;
     }
+
     h1 {
       text-align: center;
-      color: #2c3e50;
+      color: var(--text-color);
       margin-bottom: 10px;
       font-size: 1.8rem;
       line-height: 1.3;
     }
+
     .subtitle {
       text-align: center;
       font-size: 1rem;
-      color: #7f8c8d;
+      color: var(--subtitle-color);
       margin-bottom: 20px;
     }
+
     .info {
       margin: 12px 0;
       padding: 12px;
-      background: #f9f9f9;
-      border-left: 6px solid #3498db;
+      background: var(--info-bg);
+      border-left: 6px solid var(--info-border);
       border-radius: 8px;
       word-wrap: break-word;
       overflow-wrap: break-word;
     }
+
     .info b {
-      color: #2c3e50;
+      color: var(--text-color);
       display: block;
       margin-bottom: 6px;
     }
+
     .highlight {
-      color: #e74c3c;
+      color: var(--highlight);
       font-weight: bold;
     }
+
     .media {
       margin: 15px 0;
       padding: 12px;
-      background: #f0f8ff;
-      border-left: 6px solid #8e44ad;
+      background: var(--media-bg);
+      border-left: 6px solid var(--media-border);
       border-radius: 8px;
     }
+
     .media b {
       display: block;
       margin-bottom: 10px;
-      color: #8e44ad;
+      color: var(--media-border);
     }
-    .media img {
-      max-width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      display: block;
-    }
+
+    .media img,
     .media video {
       max-width: 100%;
       border-radius: 8px;
       margin-bottom: 10px;
       display: block;
     }
+
     footer {
       text-align: center;
       margin-top: 20px;
       font-size: 0.9rem;
-      color: #555;
+      color: var(--footer-color);
     }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -90,6 +145,11 @@
   </style>
 </head>
 <body>
+  <header>
+    <div></div>
+    <button class="theme-toggle" id="themeToggle">🌙 Dark Mode</button>
+  </header>
+
   <div class="card">
     <h1 id="brand_name">Loading...</h1>
     <p class="subtitle" id="dosage_form"></p>
@@ -115,6 +175,27 @@
   </div>
 
   <script>
+    // Theme toggle
+    const toggleBtn = document.getElementById("themeToggle");
+    const body = document.body;
+
+    if (localStorage.getItem("theme") === "dark") {
+      body.classList.add("dark-mode");
+      toggleBtn.textContent = "☀️ Light Mode";
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      body.classList.toggle("dark-mode");
+      if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+        toggleBtn.textContent = "☀️ Light Mode";
+      } else {
+        localStorage.setItem("theme", "light");
+        toggleBtn.textContent = "🌙 Dark Mode";
+      }
+    });
+
+    // Load drug + media data
     const urlParams = new URLSearchParams(window.location.search);
     const drugId = urlParams.get("id");
 
@@ -157,7 +238,7 @@
 
         // Handle Media Section
         const media = mediaData[drugId];
-        if (media && (media.images.length > 0 || media.videos.length > 0)) {
+        if (media && (media.images.length > 0 || media.videos.length > 0 || media.youtube.length > 0)) {
           const mediaContent = document.getElementById("media_content");
 
           media.images.forEach(img => {
@@ -171,6 +252,16 @@
             videoElement.src = vid;
             videoElement.controls = true;
             mediaContent.appendChild(videoElement);
+          });
+
+          media.youtube.forEach(link => {
+            const iframe = document.createElement("iframe");
+            iframe.src = link.replace("watch?v=", "embed/").replace("shorts/", "embed/");
+            iframe.width = "100%";
+            iframe.height = "315";
+            iframe.allowFullscreen = true;
+            iframe.style.borderRadius = "8px";
+            mediaContent.appendChild(iframe);
           });
 
           document.getElementById("media_section").style.display = "block";

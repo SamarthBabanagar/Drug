@@ -5,14 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Drug QR Codes</title>
   <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #6dd5ed, #fceabb);
+      --card-bg: linear-gradient(135deg, #ffffff, #f8f9fa);
+      --text-color: #2c3e50;
+      --heading-color: #2c3e50;
+      --footer-color: #444;
+    }
+
+    body.dark-mode {
+      --bg-gradient: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --card-bg: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+      --text-color: #eaeaea;
+      --heading-color: #f1f1f1;
+      --footer-color: #bbb;
+    }
+
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #6dd5ed, #fceabb);
+      background: var(--bg-gradient);
       margin: 0;
       padding: 30px;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      color: var(--text-color);
     }
 
     .container {
@@ -21,16 +38,37 @@
       flex: 1;
     }
 
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
     h1 {
       text-align: center;
-      color: #2c3e50;
-      margin-bottom: 30px;
+      color: var(--heading-color);
+      margin: 0 auto 30px auto;
       font-size: 2.2rem;
       letter-spacing: 1px;
       text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
     }
 
-    /* Default: 4 per row */
+    .theme-toggle {
+      cursor: pointer;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #3498db, #2980b9);
+      color: white;
+      font-size: 14px;
+      transition: background 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      background: linear-gradient(135deg, #2980b9, #1f6391);
+    }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -40,7 +78,7 @@
     }
 
     .card {
-      background: linear-gradient(135deg, #ffffff, #f8f9fa);
+      background: var(--card-bg);
       padding: 20px;
       border-radius: 18px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.1);
@@ -67,7 +105,7 @@
 
     .card h2 {
       font-size: 1.1rem;
-      color: #34495e;
+      color: var(--text-color);
       margin: 10px 0;
     }
 
@@ -93,7 +131,7 @@
       text-align: center;
       margin-top: 40px;
       font-size: 0.95rem;
-      color: #444;
+      color: var(--footer-color);
       padding: 15px 0;
       border-top: 1px solid rgba(0,0,0,0.1);
     }
@@ -126,11 +164,13 @@
       }
     }
   </style>
-
 </head>
 <body>
   <div class="container">
-    <h1>Drug QR Codes</h1>
+    <header>
+      <h1>Drug QR Codes</h1>
+      <button class="theme-toggle" id="themeToggle">🌙 Dark Mode</button>
+    </header>
 
     <div class="grid" id="qrGrid">
       <!-- Cards will be injected dynamically -->
@@ -140,6 +180,27 @@
   <footer>⚕️ Scan QR codes to view detailed drug information</footer>
 
   <script>
+    // Theme toggle
+    const toggleBtn = document.getElementById("themeToggle");
+    const body = document.body;
+
+    // Load saved theme
+    if (localStorage.getItem("theme") === "dark") {
+      body.classList.add("dark-mode");
+      toggleBtn.textContent = "☀️ Light Mode";
+    }
+
+    toggleBtn.addEventListener("click", () => {
+      body.classList.toggle("dark-mode");
+      if (body.classList.contains("dark-mode")) {
+        localStorage.setItem("theme", "dark");
+        toggleBtn.textContent = "☀️ Light Mode";
+      } else {
+        localStorage.setItem("theme", "light");
+        toggleBtn.textContent = "🌙 Dark Mode";
+      }
+    });
+
     // Load drug data
     fetch("drugs.json")
       .then(res => res.json())
