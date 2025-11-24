@@ -6,10 +6,10 @@ media\*\*.mp4
 media\*\*.wav
 media\*\*.jpeg
 media\*\*.gif
-ECHO is off.
+
 # Keep .gitkeep placeholders
 !media\*\.gitkeep
-ECHO is off.
+
 # Python ignores
 __pycache__/
 *.pyc
