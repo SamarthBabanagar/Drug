@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Loading...</title>
+
   <style>
+    /* ---------- Base ---------- */
     body {
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 20px;
       transition: background 0.3s, color 0.3s;
     }
-
-    /* Light mode */
     body.light {
       background: linear-gradient(135deg, #e0f7fa, #fce4ec);
       color: #2c3e50;
     }
-
-    /* Dark mode */
     body.dark {
       background: linear-gradient(135deg, #2c3e50, #000000);
       color: #f0f0f0;
@@ -26,150 +24,134 @@
 
     .card {
       width: 100%;
-      max-width: 700px;
+      max-width: 800px;
       margin: auto;
       background: #fff;
       padding: 20px;
       border-radius: 15px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-      animation: fadeIn 1s ease-in-out;
+      animation: fadeIn 300ms ease-in-out;
       box-sizing: border-box;
       transition: background 0.3s, color 0.3s;
     }
-    body.dark .card {
-      background: #1e1e1e;
-      color: #f0f0f0;
-    }
+    body.dark .card { background: #1e1e1e; color: #f0f0f0; }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 10px;
-      font-size: 1.8rem;
-      line-height: 1.3;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-size: 1rem;
-      margin-bottom: 20px;
-    }
+    h1 { text-align: center; margin-bottom: 6px; font-size: 1.8rem; line-height: 1.3; }
+    .subtitle { text-align: center; font-size: 1rem; margin-bottom: 18px; }
 
     .info {
-      margin: 12px 0;
-      padding: 12px;
-      background: #f9f9f9;
-      border-left: 6px solid #3498db;
-      border-radius: 8px;
-      word-wrap: break-word;
-      overflow-wrap: break-word;
+      margin: 10px 0; padding: 12px;
+      background: #f9f9f9; border-left: 6px solid #3498db; border-radius: 8px;
+      word-wrap: break-word; overflow-wrap: break-word; transition: background 0.3s;
+    }
+    body.dark .info { background: #333; border-left-color: #9b59b6; }
+    .info b { display: block; margin-bottom: 6px; }
+    .highlight { color: #e74c3c; font-weight: bold; }
+
+    /* ---------- Media ---------- */
+    #media_section {
+      margin: 18px 0; padding: 12px;
+      background: #f0f8ff; border-left: 6px solid #8e44ad; border-radius: 8px;
       transition: background 0.3s;
     }
-    body.dark .info {
-      background: #333;
-      border-left-color: #9b59b6;
-    }
+    body.dark #media_section { background: #2e2e2e; }
 
-    .info b {
-      display: block;
-      margin-bottom: 6px;
-    }
+    .media-block { margin-bottom: 12px; }
+    .media-block h3 { margin: 6px 0; font-size: 1rem; }
 
-    .highlight {
-      color: #e74c3c;
-      font-weight: bold;
+    .media-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+    .media-grid img, .media-grid video, .media-grid audio {
+      max-width: 220px; border-radius: 8px; display: block;
     }
+    .media-item { max-width: 220px; }
 
-    .media {
-      margin: 15px 0;
-      padding: 12px;
-      background: #f0f8ff;
-      border-left: 6px solid #8e44ad;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-    body.dark .media {
-      background: #2e2e2e;
-    }
+    footer { text-align: center; margin-top: 20px; font-size: 0.9rem; opacity: 0.8; }
 
-    .media img, .media video {
-      max-width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
-      display: block;
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    footer {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 0.9rem;
-      opacity: 0.8;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Toggle Button */
-    .toggle-container {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .toggle-label {
-      margin-right: 10px;
-      font-size: 0.9rem;
-    }
-
-    .toggle-switch {
-      position: relative;
-      width: 50px;
-      height: 26px;
-    }
-
-    .toggle-switch input {
-      display: none;
-    }
+    /* ---------- Toggle ---------- */
+    .toggle-container { display: flex; justify-content: flex-end; align-items: center; margin-bottom: 10px; }
+    .toggle-label { margin-right: 10px; font-size: 0.9rem; }
+    .toggle-switch { position: relative; width: 50px; height: 26px; }
+    .toggle-switch input { display: none; }
 
     .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0;
-      right: 0; bottom: 0;
-      background-color: #ccc;
-      transition: .4s;
-      border-radius: 26px;
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc; transition: .4s; border-radius: 26px;
     }
-
     .slider:before {
-      position: absolute;
-      content: "";
-      height: 20px; width: 20px;
-      left: 3px; bottom: 3px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
+      position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px;
+      background-color: white; transition: .4s; border-radius: 50%;
     }
+    input:checked + .slider { background-color: #2196F3; }
+    input:checked + .slider:before { transform: translateX(24px); }
 
-    input:checked + .slider {
-      background-color: #2196F3;
-    }
-
-    input:checked + .slider:before {
-      transform: translateX(24px);
-    }
-
-    /* Mobile: hide text label, show only switch */
     @media (max-width: 600px) {
-      .toggle-label {
-        display: none;
-      }
+      .toggle-label { display: none; }
+      .media-grid img, .media-grid video { max-width: 100%; }
+    }
+
+    /* ========== Professional Lightbox ========== */
+    .lb-overlay {
+      position: fixed; inset: 0; display: none; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.65); z-index: 9999; padding: 20px; transition: opacity 180ms ease;
+    }
+    .lb-overlay.open { display: flex; opacity: 1; }
+
+    .lb-window {
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.02));
+      border-radius: 10px; max-width: 92%; max-height: 92%; width: 1000px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6); display: flex; gap: 18px; overflow: hidden;
+      position: relative;
+    }
+
+    .lb-image-wrap {
+      flex: 1 1 auto; display: flex; align-items: center; justify-content: center; padding: 18px;
+      background: rgba(0,0,0,0.02);
+    }
+    .lb-image {
+      max-width: 100%; max-height: calc(92vh - 120px); border-radius: 6px; object-fit: contain;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+      transition: transform .12s ease;
+    }
+
+    .lb-info {
+      width: 320px; min-width: 220px; background: rgba(255,255,255,0.03);
+      color: #fff; display:flex; flex-direction: column; justify-content: flex-start; gap: 10px; padding: 14px;
+    }
+    .lb-header { display:flex; justify-content: space-between; align-items: center; }
+    .lb-filename { font-weight: 600; font-size: 1rem; color: #e8eef6; word-break: break-all; }
+    .lb-meta { font-size: 0.88rem; color: #cbd5e1; margin-top: 8px; }
+    .lb-actions { margin-top: 12px; display:flex; gap:10px; align-items:center; }
+
+    .btn-download {
+      background: linear-gradient(135deg,#0b84ff,#0066cc); color: #fff; border: none; padding: 8px 12px;
+      border-radius: 8px; font-weight: 600; display:inline-flex; gap:8px; align-items:center;
+      box-shadow: 0 6px 18px rgba(10,100,200,0.18); text-decoration: none;
+    }
+    .btn-download:hover { transform: translateY(-2px); }
+    .btn-open {
+      background: rgba(255,255,255,0.06); color: #fff; border: 1px solid rgba(255,255,255,0.06);
+      padding: 8px 10px; border-radius: 8px; font-weight: 600; text-decoration: none;
+    }
+
+    .lb-close {
+      position: absolute; left: 12px; top: 12px; background: rgba(0,0,0,0.55); color: #fff;
+      border-radius: 6px; width: 36px; height: 36px; display:inline-flex; align-items:center; justify-content:center;
+      border: none; cursor: pointer; z-index: 10010; font-size: 16px;
+    }
+
+    @media (max-width: 920px) {
+      .lb-window { width: 94%; flex-direction: column; align-items: stretch; }
+      .lb-info { width: 100%; order: 2; padding: 12px; }
+      .lb-image-wrap { order: 1; padding: 10px; }
+      .lb-image { max-height: 55vh; }
     }
   </style>
 </head>
+
 <body class="light">
+
   <div class="toggle-container">
     <span class="toggle-label">Light / Dark</span>
     <label class="toggle-switch">
@@ -193,80 +175,231 @@
     <div class="info"><b>Label Warning:</b> <span id="label_warning"></span></div>
     <div class="info"><b>Indications:</b> <span id="indications"></span></div>
 
-    <div id="media_section" class="media" style="display:none;">
-      <b>Media:</b>
+    <!-- MEDIA -->
+    <div id="media_section" style="display:none;" aria-live="polite">
+      <b>Media (sorted)</b>
       <div id="media_content"></div>
     </div>
 
     <footer>⚕️ For medical guidance, consult a licensed physician.</footer>
   </div>
 
+  <!-- Professional lightbox -->
+  <div id="lbOverlay" class="lb-overlay" role="dialog" aria-hidden="true" aria-modal="true">
+    <button id="lbClose" class="lb-close" aria-label="Close">✕</button>
+
+    <div class="lb-window" role="document">
+      <div class="lb-image-wrap">
+        <img id="lbImage" class="lb-image" src="" alt="">
+      </div>
+
+      <div class="lb-info" aria-hidden="false">
+        <div class="lb-header">
+          <div id="lbFilename" class="lb-filename">filename.jpg</div>
+        </div>
+
+        <div id="lbMeta" class="lb-meta">Click Download to save — press Esc to close</div>
+
+        <div class="lb-actions">
+          <a id="lbDownload" class="btn-download" href="#" download>⬇ Download</a>
+          <a id="lbOpenNew" class="btn-open" href="#" target="_blank" rel="noopener">Open in new tab</a>
+        </div>
+
+        <div style="margin-top:12px; font-size:0.85rem; color:#aeb9c9;">
+          File preview — not full screen. Use Esc or close button to exit.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Toggle dark/light mode
-    const toggle = document.getElementById("modeToggle");
-    toggle.addEventListener("change", () => {
-      document.body.classList.toggle("dark", toggle.checked);
-      document.body.classList.toggle("light", !toggle.checked);
+    /* ---------- Theme ---------- */
+    const toggle = document.getElementById('modeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    function applyTheme(theme) {
+      document.body.classList.toggle('dark', theme === 'dark');
+      document.body.classList.toggle('light', theme !== 'dark');
+      toggle.checked = theme === 'dark';
+    }
+    applyTheme(savedTheme || 'light');
+    toggle.addEventListener('change', () => {
+      const theme = toggle.checked ? 'dark' : 'light';
+      applyTheme(theme);
+      localStorage.setItem('theme', theme);
     });
 
-    // Load drug + media data
+    /* ---------- Lightbox controls ---------- */
+    const lbOverlay = document.getElementById('lbOverlay');
+    const lbImage = document.getElementById('lbImage');
+    const lbFilename = document.getElementById('lbFilename');
+    const lbDownload = document.getElementById('lbDownload');
+    const lbOpenNew = document.getElementById('lbOpenNew');
+    const lbClose = document.getElementById('lbClose');
+
+    function openLightbox(src, filename, alt = '') {
+      lbImage.src = src;
+      lbImage.alt = alt || filename;
+      lbFilename.innerText = filename;
+      lbDownload.href = src;
+      lbDownload.setAttribute('download', filename);
+      lbOpenNew.href = src;
+      lbOverlay.classList.add('open');
+      lbOverlay.setAttribute('aria-hidden', 'false');
+      lbClose.focus();
+    }
+
+    function closeLightbox() {
+      lbOverlay.classList.remove('open');
+      lbOverlay.setAttribute('aria-hidden', 'true');
+      // clear src to stop resource use
+      lbImage.src = '';
+    }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbOverlay.addEventListener('click', (e) => {
+      if (e.target === lbOverlay) closeLightbox();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lbOverlay.classList.contains('open')) closeLightbox();
+    });
+
+    /* ---------- Load data and render ---------- */
     const urlParams = new URLSearchParams(window.location.search);
-    const drugId = urlParams.get("id");
+    const drugId = urlParams.get('id');
 
     Promise.all([
-      fetch("drugs.json").then(res => res.json()),
-      fetch("media.json").then(res => res.json())
+      fetch("drugs.json").then(r => r.json()),
+      fetch("media.json").then(r => r.json())
     ])
     .then(([drugsData, mediaData]) => {
       const drug = drugsData[drugId];
-      if (drug) {
-        document.title = drug.brand_name;
-        document.getElementById("brand_name").innerText = drug.brand_name;
-        document.getElementById("dosage_form").innerText = drug.dosage_form || "N/A";
-
-        if (Array.isArray(drug.drug_composition)) {
-          document.getElementById("composition").innerText = drug.drug_composition.join(", ");
-        } else if (typeof drug.drug_composition === "object") {
-          document.getElementById("composition").innerText =
-            Object.entries(drug.drug_composition).map(([k, v]) => `${k}: ${v}`).join(", ");
-        } else {
-          document.getElementById("composition").innerText = drug.drug_composition || "N/A";
-        }
-
-        document.getElementById("dose_strength").innerText = drug.dose_strength || "N/A";
-        document.getElementById("batch_no").innerText = drug.batch_no || "N/A";
-        document.getElementById("mfg_date").innerText = drug.manufacturing_date || "N/A";
-        document.getElementById("exp_date").innerText = drug.expiry_date || "N/A";
-        document.getElementById("storage").innerText =
-          Array.isArray(drug.storage_conditions) ? drug.storage_conditions.join(" | ") : (drug.storage_conditions || "N/A");
-        document.getElementById("special_conditions").innerText =
-          Array.isArray(drug.special_conditions) ? drug.special_conditions.join(" | ") : (drug.special_conditions || "N/A");
-        document.getElementById("directions").innerHTML =
-          Array.isArray(drug.directions_for_use) ? drug.directions_for_use.join("<br>") : (drug.directions_for_use || "N/A");
-        document.getElementById("label_warning").innerText = drug.label_warning || "N/A";
-        document.getElementById("indications").innerText = drug.indications || "N/A";
-
-        const media = mediaData[drugId];
-        if (media && (media.images.length > 0 || media.videos.length > 0)) {
-          const mediaContent = document.getElementById("media_content");
-          media.images.forEach(img => {
-            const imageElement = document.createElement("img");
-            imageElement.src = img;
-            mediaContent.appendChild(imageElement);
-          });
-          media.videos.forEach(vid => {
-            const videoElement = document.createElement("video");
-            videoElement.src = vid;
-            videoElement.controls = true;
-            mediaContent.appendChild(videoElement);
-          });
-          document.getElementById("media_section").style.display = "block";
-        }
-      } else {
+      if (!drug) {
         document.body.innerHTML = "<h2 style='text-align:center;color:red;'>Drug not found!</h2>";
         document.title = "Drug not found";
+        return;
       }
+
+      document.title = drug.brand_name;
+      document.getElementById("brand_name").innerText = drug.brand_name;
+      document.getElementById("dosage_form").innerText = drug.dosage_form || "N/A";
+
+      /* Composition */
+      if (Array.isArray(drug.drug_composition)) {
+        document.getElementById("composition").innerText = drug.drug_composition.join(", ");
+      } else if (typeof drug.drug_composition === "object") {
+        document.getElementById("composition").innerText =
+          Object.entries(drug.drug_composition).map(([k,v]) => `${k}: ${v}`).join(", ");
+      } else {
+        document.getElementById("composition").innerText = drug.drug_composition || "N/A";
+      }
+
+      document.getElementById("dose_strength").innerText = drug.dose_strength || "N/A";
+      document.getElementById("batch_no").innerText = drug.batch_no || "N/A";
+      document.getElementById("mfg_date").innerText = drug.manufacturing_date || "N/A";
+      document.getElementById("exp_date").innerText = drug.expiry_date || "N/A";
+      document.getElementById("storage").innerText = Array.isArray(drug.storage_conditions)
+        ? drug.storage_conditions.join(" | ") : (drug.storage_conditions || "N/A");
+
+      document.getElementById("special_conditions").innerText = Array.isArray(drug.special_conditions)
+        ? drug.special_conditions.join(" | ") : (drug.special_conditions || "N/A");
+
+      document.getElementById("directions").innerHTML = Array.isArray(drug.directions_for_use)
+        ? drug.directions_for_use.join("<br>") : (drug.directions_for_use || "N/A");
+
+      document.getElementById("label_warning").innerText = drug.label_warning || "N/A";
+      document.getElementById("indications").innerText = drug.indications || "N/A";
+
+      /* MEDIA */
+      const media = mediaData[drugId];
+      if (!media) return;
+      const mediaContent = document.getElementById('media_content');
+
+      function createSection(title, items, renderer) {
+        if (!items || items.length === 0) return;
+        const block = document.createElement('div');
+        block.className = 'media-block';
+        const h = document.createElement('h3');
+        h.innerText = title;
+        block.appendChild(h);
+        const grid = document.createElement('div');
+        grid.className = 'media-grid';
+        items.forEach(src => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'media-item';
+          renderer(src, wrapper);
+          grid.appendChild(wrapper);
+        });
+        block.appendChild(grid);
+        mediaContent.appendChild(block);
+      }
+
+      /* Images: resolve path if necessary, add click to open lightbox */
+      createSection('Images', media.images || [], (src, el) => {
+        const img = document.createElement('img');
+        const finalSrc = src.startsWith('media/') ? src : `media/${drugId}/${src}`;
+        img.src = finalSrc;
+        img.alt = `${document.getElementById("brand_name").innerText} image`;
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', () => {
+          const filename = finalSrc.split('/').pop();
+          openLightbox(finalSrc, filename, img.alt);
+        });
+        el.appendChild(img);
+      });
+
+      /* Videos */
+      createSection('Videos', media.videos || [], (src, el) => {
+        const v = document.createElement('video');
+        const finalSrc = src.startsWith('media/') ? src : `media/${drugId}/${src}`;
+        v.src = finalSrc;
+        v.controls = true;
+        v.style.maxWidth = '220px';
+        v.style.borderRadius = '8px';
+        el.appendChild(v);
+      });
+
+      /* Audio */
+      createSection('Audio', media.audio || [], (src, el) => {
+        const a = document.createElement('audio');
+        const finalSrc = src.startsWith('media/') ? src : `media/${drugId}/${src}`;
+        a.src = finalSrc;
+        a.controls = true;
+        el.appendChild(a);
+      });
+
+      /* YouTube / External */
+      createSection('YouTube / External', media.youtube || [], (src, el) => {
+        const isYouTube = /youtube\.com|youtu\.be/.test(src);
+        if (isYouTube) {
+          const iframe = document.createElement('iframe');
+          iframe.width = '320'; iframe.height = '180';
+          iframe.src = src.replace('watch?v=', 'embed/');
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+          iframe.style.borderRadius = '8px';
+          el.appendChild(iframe);
+        } else {
+          const a = document.createElement('a');
+          a.href = src; a.target = '_blank'; a.innerText = src;
+          el.appendChild(a);
+        }
+      });
+
+      if (mediaContent.children.length > 0) document.getElementById('media_section').style.display = 'block';
+    })
+    .catch(err => {
+      console.error(err);
+      document.body.innerHTML = "<h2 style='text-align:center;color:red;'>Failed to load data.</h2>";
     });
+
+    /* -------- Demo helper (commented) --------
+       The image you uploaded is at:
+       /mnt/data/0d5e971d-6303-4606-af43-b1627423fb88.png
+
+       To test the lightbox quickly, you can run in dev console or
+       uncomment the line below (only for local testing via your server).
+    */
+    // openLightbox('/mnt/data/0d5e971d-6303-4606-af43-b1627423fb88.png', 'amrox_preview.png', 'Amrox image');
+
   </script>
 </body>
 </html>
