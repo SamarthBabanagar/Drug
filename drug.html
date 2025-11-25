@@ -334,7 +334,7 @@
       }
 
       /* Images: resolve path if necessary, add click to open lightbox */
-      createSection('Images', media.images || [], (src, el) => {
+      createSection('Product identification', media.images || [], (src, el) => {
         const img = document.createElement('img');
         const finalSrc = src.startsWith('media/') ? src : `media/${drugId}/${src}`;
         img.src = finalSrc;
@@ -359,7 +359,7 @@
       });
 
       /* Audio */
-      createSection('Audio', media.audio || [], (src, el) => {
+      createSection('User instructions', media.audio || [], (src, el) => {
         const a = document.createElement('audio');
         const finalSrc = src.startsWith('media/') ? src : `media/${drugId}/${src}`;
         a.src = finalSrc;
